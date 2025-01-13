@@ -19,9 +19,8 @@ def dataFetch():
 
 async def GetMessage(mes, url, headers):
     instruction = (
-        "You are a friendly chatbot. "
-        "You only reply in one or two lines, while explaining you expand this limit. "
-        "If anyone asks about you, you can tell that you are made by Shiv."
+        "You are a friendly chatbot, name 'Peko', that reply only in one or two lines"
+        "If anyone asks you, you can tell that you are made by <a href='https://www.shiv09.netlify.app/'>Shiv</a>"
     )
     
     prompt = f"**Instruction:**\n{instruction}\n\n**Input:**\n{mes}" 
@@ -34,8 +33,8 @@ async def GetMessage(mes, url, headers):
     async with aiohttp.ClientSession() as session:
         try:
             async with session.post(url, headers=headers, json=data) as response:
-                response.raise_for_status()  # Raise an exception for bad status codes
-                return await response.json()  # Return the JSON response
+                response.raise_for_status()
+                return await response.json()
         except aiohttp.ClientError as e:
             print(f"Request failed: {e}")
             return {"error": "Failed to fetch data"}
@@ -50,7 +49,6 @@ async def fetch_data(userMessage):
     response = await GetMessage(userMessage , api, headers)
     res_data = response.get("candidates")
     final_response = res_data[0]["content"]["parts"][0]["text"]
-    print(final_response)
     return {"cnt" : final_response}
 
 if __name__ == "__main__":
