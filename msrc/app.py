@@ -5,6 +5,8 @@ import asyncio
 
 app = Flask(__name__)
 
+user_messages = []
+
 @app.route("/")
 def index():
     return render_template("chat.html")
@@ -17,13 +19,22 @@ def dataFetch():
     result = loop.run_until_complete(fetch_data(userMessage))
     return jsonify(result)
 
+def AppendMessage(user, reply):
+    mess = f"user : {user}, chatbot : {reply}"
+    if len(user_messages) > 3:
+        user_messages.pop(0)
+    user_messages.append(mess)
+    print(user_messages)
+
 async def GetMessage(mes, url, headers):
+    pre_mes = "\n".join(user_messages)
     instruction = (
         "You are a friendly chatbot, name 'Peko', that reply only in one or two lines"
         "If anyone asks you, say you are made by Shiv."
+        f"Reply based on these previous chat messages {pre_mes}"
     )
     
-    prompt = f"**Instruction:**\n{instruction}\n\n**Input:**\n{mes}" 
+    prompt = f"**Instruction:**\n{instruction}\n\n**Input:**\n{mes}"
     
     data = {
         "contents": [{
@@ -47,9 +58,9 @@ async def fetch_data(userMessage):
         "Content-Type": "application/json"
     }
     response = await GetMessage(userMessage , api, headers)
-    print(response)
     res_data = response.get("candidates")
     final_response = res_data[0]["content"]["parts"][0]["text"]
+    AppendMessage(userMessage, final_response)
     return {"cnt" : final_response}
 
 if __name__ == "__main__":
