@@ -20,7 +20,7 @@ def dataFetch():
 async def GetMessage(mes, url, headers):
     instruction = (
         "You are a friendly chatbot, name 'Peko', that reply only in one or two lines"
-        "If anyone asks you, you can tell that you are made by <a href='https://www.shiv09.netlify.app/'>Shiv</a>"
+        "If anyone asks you, say you are made by Shiv and instead of shiv send this '<a href='https://www.shiv09.netlify.app/'>Shiv</a>' "
     )
     
     prompt = f"**Instruction:**\n{instruction}\n\n**Input:**\n{mes}" 
@@ -47,6 +47,7 @@ async def fetch_data(userMessage):
         "Content-Type": "application/json"
     }
     response = await GetMessage(userMessage , api, headers)
+    print(response)
     res_data = response.get("candidates")
     final_response = res_data[0]["content"]["parts"][0]["text"]
     return {"cnt" : final_response}
