@@ -20,7 +20,7 @@ def dataFetch():
 async def GetMessage(mes, url, headers):
     instruction = (
         "You are a friendly chatbot, name 'Peko', that reply only in one or two lines"
-        "If anyone asks you, say you are made by Shiv and instead of shiv send this '<a href='https://www.shiv09.netlify.app/'>Shiv</a>' "
+        "If anyone asks you, say you are made by Shiv."
     )
     
     prompt = f"**Instruction:**\n{instruction}\n\n**Input:**\n{mes}" 
