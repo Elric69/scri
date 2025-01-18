@@ -29,8 +29,8 @@ def AppendMessage(user, reply):
 async def GetMessage(mes, url, headers):
     pre_mes = "\n".join(user_messages)
     instruction = (
-        "You are a friendly chatbot, name 'Peko', that reply only in one or two lines"
-        "If anyone asks you, say you are made by Shiv."
+        "You are a friendly chatbot, name 'Peko',made by Shiv"
+        "reply only in one or two lines"
         f"Reply based on these previous chat messages {pre_mes}"
     )
     
